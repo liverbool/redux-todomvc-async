@@ -28,6 +28,7 @@ export default class MainSection extends Component {
 
     renderToggleAll(completedCount) {
         const {todos, actions} = this.props
+
         if (todos.length > 0) {
             return (
                 <input className="toggle-all"
@@ -55,7 +56,7 @@ export default class MainSection extends Component {
     }
 
     render() {
-        const {todos, actions} = this.props
+        const {todos, actions, loading} = this.props
         const {filter} = this.state
 
         const filteredTodos = todos.filter(TODO_FILTERS[filter])
@@ -67,6 +68,7 @@ export default class MainSection extends Component {
         return (
             <section className="main">
                 {this.renderToggleAll(completedCount)}
+                {loading ? 'Loading...' : ''}
                 <ul className="todo-list">
                     {filteredTodos.map(todo =>
                         <TodoItem key={todo.id} todo={todo} {...actions} />

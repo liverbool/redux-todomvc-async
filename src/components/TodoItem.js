@@ -12,26 +12,37 @@ export default class TodoItem extends Component {
     }
 
     state = {
-        editing: false
+        editing: false,
     }
 
     handleDoubleClick = () => {
         this.setState({editing: true})
     }
 
+    handleCompleteToggle = () => {
+        this.props.todo.completed = !this.props.todo.completed
+        this.props.completeTodo(this.props.todo)
+    }
+
     handleSave = (id, text) => {
-        if (text.length === 0) {
-            this.props.deleteTodo(id)
-        } else {
-            this.props.editTodo(id, text)
-        }
         this.setState({editing: false})
+
+        if (text.length === 0) {
+            this.props.deleteTodo(this.props.todo)
+
+            return
+        }
+
+        if (this.props.todo._snapshort.text !== text) {
+            this.props.todo.text = text
+            this.props.editTodo(this.props.todo)
+        }
     }
 
     render() {
-        const {todo, completeTodo, deleteTodo} = this.props
-
+        const {todo, deleteTodo} = this.props
         let element
+
         if (this.state.editing) {
             element = (
                 <TodoTextInput text={todo.text}
@@ -44,12 +55,12 @@ export default class TodoItem extends Component {
                     <input className="toggle"
                            type="checkbox"
                            checked={todo.completed}
-                           onChange={() => completeTodo(todo.id)}/>
+                           onChange={this.handleCompleteToggle}/>
                     <label onDoubleClick={this.handleDoubleClick}>
                         {todo.text}
                     </label>
                     <button className="destroy"
-                            onClick={() => deleteTodo(todo.id)}/>
+                            onClick={() => deleteTodo(todo)}/>
                 </div>
             )
         }

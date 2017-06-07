@@ -1,6 +1,22 @@
-export const ADD_TODO = 'ADD_TODO'
-export const DELETE_TODO = 'DELETE_TODO'
-export const EDIT_TODO = 'EDIT_TODO'
-export const COMPLETE_TODO = 'COMPLETE_TODO'
 export const COMPLETE_ALL = 'COMPLETE_ALL'
 export const CLEAR_COMPLETED = 'CLEAR_COMPLETED'
+
+export const COMPLETE_TODO = 'COMPLETE_TODO'
+export const COMPLETE_TODO_DONE = 'COMPLETE_TODO_DONE'
+export const COMPLETE_TODO_FAIL = 'COMPLETE_TODO_FAIL'
+
+export const GET_TODO_DATA = 'GET_TODO_DATA'
+export const GET_TODO_DATA_DONE = 'GET_TODO_DATA_DONE'
+export const GET_TODO_DATA_FAIL = 'GET_TODO_DATA_FAIL'
+
+export const EDIT_TODO = 'EDIT_TODO'
+export const EDIT_TODO_DONE = 'EDIT_TODO_DONE'
+export const EDIT_TODO_FAIL = 'EDIT_TODO_FAIL'
+
+export const DELETE_TODO = 'DELETE_TODO'
+export const DELETE_TODO_DONE = 'DELETE_TODO_DONE'
+export const DELETE_TODO_FAIL = 'DELETE_TODO_FAIL'
+
+export const ADD_TODO = 'ADD_TODO'
+export const ADD_TODO_DONE = 'ADD_TODO_DONE'
+export const ADD_TODO_FAIL = 'ADD_TODO_FAIL'

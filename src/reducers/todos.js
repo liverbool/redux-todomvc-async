@@ -1,55 +1,71 @@
-import {ADD_TODO, DELETE_TODO, EDIT_TODO, COMPLETE_TODO, COMPLETE_ALL, CLEAR_COMPLETED} from '../constants/ActionTypes'
+import {COMPLETE_ALL, CLEAR_COMPLETED} from '../constants/ActionTypes'
+import * as ATs from '../constants/ActionTypes'
 
-const initialState = [
-    {
-        text: 'Use Redux',
-        completed: false,
-        id: 0
-    }
-]
+const reject = (records, action) => {
+    records.some(data => {
+        if (data.id === action.data.id) {
+            Object.assign(data, action.snapshort)
 
-export default function todos(state = initialState, action) {
+            return true
+        }
+
+        return false
+    })
+
+    return records
+}
+
+const snapshort = (records, action) => {
+    records.some(data => {
+        if (data.id === action.data.id) {
+            data._snapshort = data
+
+            return true
+        }
+
+        return false
+    })
+
+    return records
+}
+
+export default function todos(records = [], action) {
     switch (action.type) {
-        case ADD_TODO:
-            return [
-                {
-                    id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
-                    completed: false,
-                    text: action.text
-                },
-                ...state
-            ]
-
-        case DELETE_TODO:
-            return state.filter(todo =>
-                todo.id !== action.id
-            )
-
-        case EDIT_TODO:
-            return state.map(todo =>
-                todo.id === action.id ?
-                    {...todo, text: action.text} :
-                    todo
-            )
-
-        case COMPLETE_TODO:
-            return state.map(todo =>
-                todo.id === action.id ?
-                    {...todo, completed: !todo.completed} :
-                    todo
-            )
-
+        // Not suppport in demo server
         case COMPLETE_ALL:
-            const areAllMarked = state.every(todo => todo.completed)
-            return state.map(todo => ({
-                ...todo,
+            const areAllMarked = records.every(rec => rec.completed)
+
+            return records.map(rec => ({
+                ...rec,
                 completed: !areAllMarked
             }))
 
+        // Not suppport in demo server
         case CLEAR_COMPLETED:
-            return state.filter(todo => todo.completed === false)
+            return records.filter(rec => rec.completed === false)
 
+        case ATs.GET_TODO_DATA_DONE:
+            return action.data
+
+        case ATs.COMPLETE_TODO_FAIL:
+        case ATs.EDIT_TODO_FAIL:
+            return reject(records, action)
+
+        case ATs.EDIT_TODO_DONE:
+        case ATs.COMPLETE_TODO_DONE:
+            snapshort(records, action)
+
+            return records
+
+        case ATs.DELETE_TODO_DONE:
+            return records.filter(rec => rec.id !== action.data.id)
+
+        case ATs.ADD_TODO_DONE:
+            return [action.data, ...records]
+
+        case ATs.DELETE_TODO_FAIL:
+        case ATs.GET_TODO_DATA_FAIL:
         default:
-            return state
+            return records
     }
 }

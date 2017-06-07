@@ -8,6 +8,10 @@ Projects built with Create-React-App include support for ES6 syntax, as well as 
 
 In the project directory, you can run:
 
+### `npm serv`
+
+Start demo remote server [http://localhost:3001](http://localhost:3001)
+
 ### `npm start`
 
 Runs the app in the development mode.<br>

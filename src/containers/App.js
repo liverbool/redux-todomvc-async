@@ -6,20 +6,22 @@ import Header from '../components/Header'
 import MainSection from '../components/MainSection'
 import * as TodoActions from '../actions'
 
-const App = ({todos, actions}) => (
+const App = ({todos, actions, loading}) => (
     <div>
         <Header addTodo={actions.addTodo}/>
-        <MainSection todos={todos} actions={actions}/>
+        <MainSection todos={todos} actions={actions} loading={loading}/>
     </div>
 )
 
 App.propTypes = {
     todos: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    loading: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
-    todos: state.todos
+    todos: state.todos,
+    loading: state.loading,
 })
 
 const mapDispatchToProps = dispatch => ({
